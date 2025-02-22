@@ -56,39 +56,43 @@
 	let timer: Timer;
 
 	function submitWord() {
-		if (game.latestWord.length !== COLS) {
-			toaster.pop("Not enough letters");
-			board.shake(game.guesses);
-		} else if (words.contains(game.latestWord)) {
-			if (game.guesses > 0) {
-				const hm = game.checkHardMode();
-				if ($settings.hard[$mode]) {
-					if (hm.type === "🟩") {
-						toaster.pop(
-							`${contractNum(hm.pos + 1)} letter must be ${hm.char.toUpperCase()}`
-						);
-						board.shake(game.guesses);
-						return;
-					} else if (hm.type === "🟨") {
-						toaster.pop(`Guess must contain ${hm.char.toUpperCase()}`);
-						board.shake(game.guesses);
-						return;
-					}
-				} else if (hm.type !== "⬛") {
-					game.validHard = false;
+	if (game.latestWord.length !== COLS) {
+		toaster.pop("Not enough letters");
+		board.shake(game.guesses);
+	} else {
+		if (game.guesses > 0) {
+			const hm = game.checkHardMode();
+			if ($settings.hard[$mode]) {
+				if (hm.type === "🟩") {
+					toaster.pop(
+						`${contractNum(hm.pos + 1)} letter must be ${hm.char.toUpperCase()}`
+					);
+					board.shake(game.guesses);
+					return;
+				} else if (hm.type === "🟨") {
+					toaster.pop(`Guess must contain ${hm.char.toUpperCase()}`);
+					board.shake(game.guesses);
+					return;
 				}
+			} else if (hm.type !== "⬛") {
+				game.validHard = false;
 			}
-			game.board.state[game.guesses] = game.guess(word);
-			++game.guesses;
-			$letterStates.update(game.lastState, game.lastWord);
-			$letterStates = $letterStates;
-			if (game.lastWord === word) win();
-			else if (game.guesses === ROWS) lose();
-		} else {
-			toaster.pop("Not in word list");
-			board.shake(game.guesses);
 		}
+		// Remove or comment out the word list check here
+		// if (!words.includes(game.latestWord)) {
+		// 	toaster.pop("Word not in list");
+		// 	board.shake(game.guesses);
+		// 	return;
+		// }
+		game.board.state[game.guesses] = game.guess(word);
+		++game.guesses;
+		$letterStates.update(game.lastState, game.lastWord);
+		$letterStates = $letterStates;
+		if (game.lastWord === word) win();
+		else if (game.guesses === ROWS) lose();
 	}
+}
+
 
 	function win() {
 		board.bounce(game.guesses - 1);
