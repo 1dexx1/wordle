@@ -3,13 +3,19 @@ const words = {
 		"nigriloid",
 		"piskogriz",
 		"negropidr",
-		"gastergey"
+		"gastergey",
+		'nilsangey',
+		'yapidaras',
+		'hatenegro'
 	],
 	"valid" : [
 		"nigriloid",
 		"piskogriz",
 		"negropidr",
-		"gastergey"
+		"gastergey",
+		'nilsangey',
+		'yapidaras',
+		'hatenegro'
 	]
 };
 export default words;
