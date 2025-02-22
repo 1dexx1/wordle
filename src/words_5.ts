@@ -19,3 +19,4 @@ const words = {
 	]
 };
 export default words;
+// ss
